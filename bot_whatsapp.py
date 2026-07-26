@@ -1,10 +1,15 @@
 import requests
 import time
+from spreadsheet import retorna_contatos
+from dotenv import load_dotenv
+
+# Carrega as variáveis do arquivo .env para o ambiente Python
+load_dotenv()
 
 # Configurações do servidor local
-API_URL = "http://localhost:8080"
-API_KEY = ""
-INSTANCE_NAME = "minha_instancia"
+API_URL = os.getenv("SERVER_URL")
+API_KEY = os.getenv("AUTHENTICATION_API_KEY")
+INSTANCE_NAME = os.getenv("INSTANCE_NAME")
 
 headers = {
     "apikey": API_KEY,

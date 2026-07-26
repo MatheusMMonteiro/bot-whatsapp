@@ -1,3 +1,4 @@
+import os
 import requests
 import time
 from spreadsheet import retorna_contatos
@@ -85,16 +86,19 @@ if __name__ == "__main__":
         input("Após escanear o QR Code no seu celular, pressione Enter para continuar...")
 
     # 2. Lista de contatos para o envio
-    lista_contatos = [
-        "5511948842117",
-    ]
+    dados = retorna_contatos()
 
-    mensagem = "Mensagem teste 2."
+    mensagem_padrao = dados["mensagem"]
+
+    print(f"\nIniciando disparos para {len(dados['contatos'])} contatos...\n")
 
     # 3. Loop de envio
-    for numero in lista_contatos:
-        print(f"Enviando para {numero}...")
-        status_code, resp = enviar_mensagem(numero, mensagem)
+    for contato in dados["contatos"]:
+        print(f"Enviando para {contato['nome']} - {contato['telefone']}")
+
+        mensagem = f"Olá {contato['nome']},\n\n{mensagem_padrao}"
+
+        status_code, resp = enviar_mensagem(contato['telefone'], mensagem)
         print(f"Status HTTP: {status_code}")
 
         # Intervalo de segurança (12 segundos)
